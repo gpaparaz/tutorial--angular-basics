@@ -55,11 +55,11 @@ export class DetailsComponent {
   housingService = inject(HousingService);
   housingLocation: HousingLocation | undefined;
 
-
-  constructor() {
-    const housingLocationId = Number(this.route.snapshot.params['id']);
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
-  }
+  // versione usata prima di installare json server
+  // constructor() {
+  //   const housingLocationId = Number(this.route.snapshot.params['id']);
+  //   this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+  // }
 
   // Now the component has the code to display the correct information based on the
   // selected housing location. The constructor now includes a call to the HousingService
@@ -81,5 +81,12 @@ export class DetailsComponent {
       this.applyForm.value.lastName ?? '',
       this.applyForm.value.email ?? ''
     );
+  }
+
+  constructor() {
+    const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
+    this.housingService.getHousingLocationById(housingLocationId).then(housingLocation => {
+      this.housingLocation = housingLocation;
+    });
   }
 }

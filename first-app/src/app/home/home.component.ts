@@ -50,9 +50,17 @@ export class HomeComponent {
     );
   }
 
+  // versione usata prima di installare json server
+  // constructor() {
+  //   this.housingLocationList = this.housingService.getAllHousingLocations();
+  //   this.filteredLocationList = this.housingLocationList;
+  // }
+
   constructor() {
-    this.housingLocationList = this.housingService.getAllHousingLocations();
-    this.filteredLocationList = this.housingLocationList;
+    this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
+      this.housingLocationList = housingLocationList;
+      this.filteredLocationList = housingLocationList;
+    });
   }
 
 }
