@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../housing.service';
 import { HousingLocation } from '../housinglocation';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   template: `
   <article>
     <img class="listing-photo" [src]="housingLocation?.photo"
@@ -23,6 +24,20 @@ import { HousingLocation } from '../housinglocation';
         <li>Does this location have wifi: {{housingLocation?.wifi}}</li>
         <li>Does this location have laundry: {{housingLocation?.laundry}}</li>
       </ul>
+    </section>
+    <section class="listing-apply">
+      <h2 class="section-heading">Apply now to live here</h2>
+      <form [formGroup]="applyForm" (submit)="submitApplication()">
+        <label for="first-name">First Name</label>
+        <input id="first-name" type="text" formControlName="firstName">
+
+        <label for="last-name">Last Name</label>
+        <input id="last-name" type="text" formControlName="lastName">
+
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email">
+        <button type="submit" class="primary">Apply now</button>
+      </form>
     </section>
   </article>
 `,
@@ -49,4 +64,22 @@ export class DetailsComponent {
   // Now the component has the code to display the correct information based on the
   // selected housing location. The constructor now includes a call to the HousingService
   // to pass the route parameter as an argument to the getHousingLocationById service function.
+
+
+  // In Angular, FormGroup and FormControl are types that enable you to build forms.
+  // The FormControl type can provide a default value and shape the form data.
+  // In this example firstName is a string and the default value is empty string.
+  applyForm = new FormGroup({
+    firstName: new FormControl(''),
+    lastName: new FormControl(''),
+    email: new FormControl('')
+  });
+
+  submitApplication() {
+    this.housingService.submitApplication(
+      this.applyForm.value.firstName ?? '',
+      this.applyForm.value.lastName ?? '',
+      this.applyForm.value.email ?? ''
+    );
+  }
 }
