@@ -21,9 +21,10 @@ import { HousingService } from '../housing.service';
     <section class="results">
       <!-- crea il binding con house-location -->
       <app-housing-location
-  *ngFor="let housingLocation of housingLocationList"
-  [housingLocation]="housingLocation">
-</app-housing-location>    </section>
+      *ngFor="let housingLocation of housingLocationList"
+      [housingLocation]="housingLocation">
+      </app-housing-location>
+    </section>
   `,
   styleUrls: ['./home.component.css'],
 })
